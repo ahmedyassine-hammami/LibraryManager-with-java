@@ -1,4 +1,17 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+<%@ page import="com.excilys.librarymanager.model.*"%>
+<%@ page import="com.excilys.librarymanager.service.impl.EmpruntService"%>
+<%@ page import="com.excilys.librarymanager.service.impl.LivreService" %>
+<%@ page import="com.excilys.librarymanager.service.impl.MembreService"%>
+<%@ page import="com.excilys.librarymanger.service.IEmpruntService"%>
+<%@ page import="com.excilys.librarymanger.service.ILivreService"%>
+<%@ page import="com.excilys.librarymanger.service.IMembreService"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List" %>
+
+<%! private List<Emprunt> emprunts = new ArrayList<>();%>
+<% emprunts = (List) request.getAttribute("emprunts"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +54,17 @@
                             <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
                         </td>
                     </tr>
+					 <% if(!emprunts.isEmpty()) {
+					for(Emprunt f : emprunts) { %>
+						<tr>
+							<th><%= f.getLivre().getTitre(),f.getLivre().getAuteur() %></th>
+							<th><%= f.getMembre().getPrenom(), f.getMembre().getNom() %></th>
+							<th><%= f.getDateEmprunt() %></th>
+							<th><%= f.getDateRetour() %></th>
+						</tr>
 
+						<% }
+				} %>
 					 <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
 					 <!-- TODO : dans le champ "retour", afficher la date de retour si elle existe, et un lien vers la page de retour si la date est vide (comme dans l'exemple ci-dessus) -->
                 </tbody>

@@ -1,4 +1,28 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+<%@ page import="com.excilys.librarymanager.model.*"%>
+<%@ page import="com.excilys.librarymanager.service.impl.EmpruntService"%>
+<%@ page import="com.excilys.librarymanager.service.impl.LivreService" %>
+<%@ page import="com.excilys.librarymanager.service.impl.MembreService"%>
+<%@ page import="com.excilys.librarymanger.service.IEmpruntService"%>
+<%@ page import="com.excilys.librarymanger.service.ILivreService"%>
+<%@ page import="com.excilys.librarymanger.service.IMembreService"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List" %>
+
+
+
+
+
+<%! private int nbr_livre; %>
+<%! private int nbr_membre; %>
+<%! private int nbr_emprunt; %>
+<%! private List<Emprunt> emprunts = new ArrayList<>();%>
+
+<% nbr_livre = (int) request.getAttribute("nbr_livre"); %>
+<% nbr_membre = (int) request.getAttribute("nbr_membre"); %>
+<% nbr_emprunt = (int) request.getAttribute("nbr_emprunt"); %>
+<% emprunts = (List) request.getAttribute("emprunts"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +47,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>12</h3> <!-- TODO : afficher le nombre de membres à la place de 12 -->
+              <h3>12</h3> <%= nbr_membre %>
               <p>Membres</p>
             </div>
             <div class="icon">
@@ -35,7 +59,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>27</h3> <!-- TODO : afficher le nombre de livres à la place de 27 -->
+              <h3>27</h3> <%= nbr_livre%>
               <p>Livres</p>
             </div>
             <div class="icon">
@@ -47,7 +71,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>1515</h3> <!-- TODO : afficher le nombre d'emprunts à la place de 1515 -->
+              <h3>1515</h3> <%= nbr_emprunt %>
               <p>Emprunts</p>
             </div>
             <div class="icon">
@@ -78,7 +102,18 @@
                             <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
                         </td>
                     </tr>
-                    
+                    <% if(!emprunts.isEmpty()) {
+					for(Emprunt f : emprunts) { %>
+						<tr>
+							<th><%= f.getLivre().getTitre(),f.getLivre().getAuteur() %></th>
+							<th><%= f.getMembre().getPrenom(), f.getMembre().getNom() %></th>
+							<th><%= f.getDateEmprunt() %></th>
+							<th><%= f.getDateRetour() %></th>
+						</tr>
+						
+						
+						<% }
+				} %>
                      <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>
